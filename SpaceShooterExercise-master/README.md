@@ -1,2 +1,0 @@
-# SpaceShooterExercise
-##Unity Tutorial. 

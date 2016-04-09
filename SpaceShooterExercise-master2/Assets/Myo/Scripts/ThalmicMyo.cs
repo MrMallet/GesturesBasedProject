@@ -67,7 +67,7 @@ public class ThalmicMyo : MonoBehaviour {
 
     void Start() {
     }
-   // /*
+      /*
     void updateGlobals()
     {
         transform.localRotation = new Quaternion(_myoQuaternion.Y, _myoQuaternion.Z, -_myoQuaternion.X, -_myoQuaternion.W);
@@ -81,10 +81,10 @@ public class ThalmicMyo : MonoBehaviour {
 
 
     }
-    //*/
+    */
 
     void Update() {
-       updateGlobals();
+       //updateGlobals();
         lock (_lock) {
             armSynced = _myoArmSynced;
             arm = _myoArm;
