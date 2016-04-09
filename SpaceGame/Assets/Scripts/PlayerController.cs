@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using Assets.Scripts;
+
+using Pose = Thalmic.Myo.Pose;
+
 [System.Serializable]
 public class Boundary{
 	public float xMin, xMax, zMin, zMax;
@@ -12,7 +16,8 @@ public class PlayerController : MonoBehaviour {
 	public float tilt;
 
 	public GameObject shot;
-	public Transform shotSpawn;
+    public GameObject myo = null;
+    public Transform shotSpawn;
 	public float fireRate;
 	
 	private Rigidbody rb;
@@ -25,8 +30,16 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update(){
-		
-		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
+        Debug.Log(GlobalVars.playerXpos);
+        Debug.Log(GlobalVars.playerYpos);
+        Debug.Log(GlobalVars.playerZpos);
+        // ThalmicMyo thalmicMyo = shot.GetComponent<ThalmicMyo>();
+
+        //if (thalmicMyo.pose == Pose.Fist){
+        //      nextFire = Time.time + fireRate;
+        //      Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+        // }
+        if (Input.GetButton ("Fire1") && Time.time > nextFire) {
 			nextFire = Time.time + fireRate;
 
 			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
@@ -35,10 +48,10 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		float moveHorizontal = Input.GetAxis ("Horizontal");
-		float moveVertical = Input.GetAxis ("Vertical");
+		//float moveHorizontal = Input.GetAxis ("Horizontal");
+		//float moveVertical = Input.GetAxis ("Vertical");
 
-		Vector3 movement = new Vector3(moveHorizontal, 0.0f ,moveVertical);
+		Vector3 movement = new Vector3(GlobalVars.playerXpos, 0.0f ,GlobalVars.playerZpos);
 
 		rb.velocity = movement* speed;
 		

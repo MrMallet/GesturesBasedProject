@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 using Arm = Thalmic.Myo.Arm;
 using XDirection = Thalmic.Myo.XDirection;
 using VibrationType = Thalmic.Myo.VibrationType;
 using Pose = Thalmic.Myo.Pose;
 using UnlockType = Thalmic.Myo.UnlockType;
+using Assets.Scripts;
 
 // Represents a Myo armband. Myo's orientation is made available through transform.localRotation, and other properties
 // like the current pose are provided explicitly below. All spatial data about Myo is provided following Unity
@@ -66,8 +68,21 @@ public class ThalmicMyo : MonoBehaviour {
 
     void Start() {
     }
+    void updateGlobals() {
+        transform.localRotation = new Quaternion(_myoQuaternion.Y, _myoQuaternion.Z, -_myoQuaternion.X, -_myoQuaternion.W);
+
+        accelerometer = new Vector3(_myoAccelerometer.Y, _myoAccelerometer.Z, -_myoAccelerometer.X);
+        Vector3 eulerAngles = transform.localRotation.eulerAngles;
+
+        GlobalVars.playerXpos = eulerAngles.x;
+        GlobalVars.playerYpos = eulerAngles.y;
+        GlobalVars.playerZpos = eulerAngles.z;
+
+
+    }
 
     void Update() {
+        updateGlobals();
         lock (_lock) {
             armSynced = _myoArmSynced;
             arm = _myoArm;
@@ -83,6 +98,7 @@ public class ThalmicMyo : MonoBehaviour {
             }
             pose = _myoPose;
             unlocked = _myoUnlocked;
+            
         }
     }
 
