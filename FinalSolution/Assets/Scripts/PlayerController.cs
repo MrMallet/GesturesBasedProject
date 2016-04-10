@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//using Assets.Scripts;
-
 using LockingPolicy = Thalmic.Myo.LockingPolicy;
 using Pose = Thalmic.Myo.Pose;
 using UnlockType = Thalmic.Myo.UnlockType;
@@ -21,99 +19,110 @@ public class PlayerController : MonoBehaviour {
 	public Boundary boundary;
 	public float tilt;
 
+
 	public GameObject shot;
 	public Transform shotSpawn;
 	public float fireRate;
 
+	private bool shooting = false;
 	private Rigidbody rb;
 	private float nextFire;
 	private AudioSource audioSource;
 	private int i;
 
 	public GameObject myo = null;
+	private Pose _lastPose = Pose.Unknown;
+	private Vector2 referenceVector;
 
-private Pose _lastPose = Pose.Unknown;
-
-
-private Vector2 referenceVector;
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		audioSource = GetComponent<AudioSource>();
 		i=0;
 
+	}
 
-    }
+	void shoot(bool shooting ){
+		if ((shooting) && Time.time > nextFire){
+			nextFire = Time.time + fireRate;
+			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+		}
+	}
 
 	void Update(){
+		ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo>();
+		bool updateReference = false;
+		shoot(shooting);
 		shot = bolts[i];
 		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
 			nextFire = Time.time + fireRate;
 
-			//changing the weapon will be done through the MYO here.
-			// or possibly bubbles with II III symbols or x2 x3 firerate
-			//shot = bolts[0];
-
 			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
 			audioSource.Play();
 		}
-		if(Input.GetKeyDown(KeyCode.Space)){
-			if(i<2){
+		if (thalmicMyo.pose != _lastPose){
+				_lastPose = thalmicMyo.pose;
+				shooting = false;
+
+
+				if (thalmicMyo.pose == Pose.FingersSpread) {
+						//updateReference = true;
+						thalmicMyo.Vibrate(VibrationType.Medium);
+						rb.position = new Vector3(0,0,0);
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
+				else if (thalmicMyo.pose == Pose.Fist)
+				{
+						shooting = true;
+						thalmicMyo.Vibrate(VibrationType.Medium);
+						nextFire = Time.time + fireRate;
+
+						Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+						audioSource.Play();
+
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
+				else if (thalmicMyo.pose == Pose.WaveOut)
+				{
+						thalmicMyo.Vibrate(VibrationType.Long);
+						if(i<2){
 							i++;
 						}
 						else if(i>=2){
 							i=0;
 						}
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
 		}
 
-        ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo>();
-        bool updateReference = false;
-		if (thalmicMyo.pose != _lastPose){
-		_lastPose = thalmicMyo.pose;
+		if(Input.GetKeyDown(KeyCode.Space)){
+			if(i<2){
+				i++;
+			}
+			else if(i>=2){
+				i=0;
+			}
+		}
+		if (updateReference)
+		{
 
-		// Vibrate the Myo armband when a fist is made.
-		if (thalmicMyo.pose == Pose.WaveIn || Input.GetButton("fire1") && Time.time > nextFire){
-				thalmicMyo.Vibrate(VibrationType.Medium);
-				nextFire = Time.time + fireRate;
+			Vector3 movement = new Vector3(myo.transform.forward.x*10, 0.0f , 0.0f); //myo.transform.forward.z * 5
+			rb.velocity = movement * speed;
 
-				Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-				audioSource.Play();
+				rb.position = new Vector3
+				(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
+				 0,
+				Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
+				 );
+			rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
 
-				ExtendUnlockAndNotifyUserAction(thalmicMyo);
-
-				// Change material when wave in, wave out or double tap poses are made.
-		} else if (thalmicMyo.pose == Pose.WaveOut) {
-                //GetComponent<Renderer>().material = waveInMaterial;
-								if(i<2){
-												i++;
-											}
-											else if(i>=2){
-												i=0;
-											}
-
-                ExtendUnlockAndNotifyUserAction (thalmicMyo);
-            }
+		}
+		rb.position = new Vector3((myo.transform.forward.x*10), 0.0f , 0.0f);// myo.transform.forward.z
 
 }
-if (updateReference)
-{
-		referenceVector = new Vector2(myo.transform.forward.x*10, myo.transform.forward.y*5);
 
-		rb.velocity = referenceVector * speed;
-
-			rb.position = new Vector3
-			(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
-			 0,
-			Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
-			 );
-		rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
-
-}
-  transform.position = new Vector2((myo.transform.forward.x*10) - referenceVector.x, myo.transform.forward.y*5 - referenceVector.y);
-	}
-/*
 	void FixedUpdate(){
-		float moveHorizontal = Input.GetAxis ("Horizontal");
+		float moveHorizontal = Input.GetAxis ("Horizontal"); //myo.transform.forward.x * 10 ;
 		float moveVertical = Input.GetAxis ("Vertical");
 
 		Vector3 movement = new Vector3(moveHorizontal, 0.0f ,moveVertical);
@@ -126,16 +135,16 @@ if (updateReference)
 			 Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
 			 );
 		rb.rotation = Quaternion.Euler (0.0f, 0.0f, rb.velocity.x * -tilt);
-	*/
-	void ExtendUnlockAndNotifyUserAction(ThalmicMyo myo)
-{
-		ThalmicHub hub = ThalmicHub.instance;
+	}
 
-		if (hub.lockingPolicy == LockingPolicy.Standard)
-		{
-				myo.Unlock(UnlockType.Timed);
-		}
+	void ExtendUnlockAndNotifyUserAction (ThalmicMyo myo)
+	{
+			ThalmicHub hub = ThalmicHub.instance;
 
-		myo.NotifyUserAction();
-}
+			if (hub.lockingPolicy == LockingPolicy.Standard) {
+					myo.Unlock (UnlockType.Timed);
+			}
+
+			myo.NotifyUserAction ();
+	}
 }
