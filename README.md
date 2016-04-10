@@ -7,7 +7,9 @@ Waves of enemies for levels.
 Lecturer: Damien Costello
 
 ##By: James Moloney and Trevor Davies
-
+##Introduction:
+As this project is about gesture based UI, we took a modified version of the Unity SpaceShooter tutorial and further modified it in order to demonstrate as many gestures as we could using the Myo ArmBand.
+Modifications:
 ##Purpose:
 To demonstrate the use of gesture based UI using the Myo Armband and Unity 5.3.0
 
