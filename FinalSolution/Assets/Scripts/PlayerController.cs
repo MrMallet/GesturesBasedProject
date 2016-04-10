@@ -19,10 +19,12 @@ public class PlayerController : MonoBehaviour {
 	public Boundary boundary;
 	public float tilt;
 
+
 	public GameObject shot;
 	public Transform shotSpawn;
 	public float fireRate;
 
+	private bool shooting = false;
 	private Rigidbody rb;
 	private float nextFire;
 	private AudioSource audioSource;
@@ -40,9 +42,17 @@ public class PlayerController : MonoBehaviour {
 
 	}
 
+	void shoot(bool shooting ){
+		if ((shooting) && Time.time > nextFire){
+			nextFire = Time.time + fireRate;
+			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+		}
+	}
+
 	void Update(){
 		ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo>();
 		bool updateReference = false;
+		shoot(shooting);
 		shot = bolts[i];
 		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
 			nextFire = Time.time + fireRate;
@@ -52,10 +62,18 @@ public class PlayerController : MonoBehaviour {
 		}
 		if (thalmicMyo.pose != _lastPose){
 				_lastPose = thalmicMyo.pose;
+				shooting = false;
 
-				// Vibrate the Myo armband when a fist is made.
-				if (thalmicMyo.pose == Pose.DoubleTap)
+
+				if (thalmicMyo.pose == Pose.FingersSpread) {
+						//updateReference = true;
+						thalmicMyo.Vibrate(VibrationType.Medium);
+						rb.position = new Vector3(0,0,0);
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
+				else if (thalmicMyo.pose == Pose.Fist)
 				{
+						shooting = true;
 						thalmicMyo.Vibrate(VibrationType.Medium);
 						nextFire = Time.time + fireRate;
 
@@ -78,32 +96,33 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if(Input.GetKeyDown(KeyCode.Space)){
-				if(i<2){
-					i++;
-				}
-				else if(i>=2){
-					i=0;
-				}
+			if(i<2){
+				i++;
 			}
-			if (updateReference)
-			{
-					referenceVector = new Vector2(myo.transform.forward.x*10, myo.transform.forward.y*5);
-
-					rb.velocity = referenceVector * speed;
-
-						rb.position = new Vector3
-						(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
-						 0,
-						Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
-						 );
-					rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
-
+			else if(i>=2){
+				i=0;
 			}
-			transform.position = new Vector2((myo.transform.forward.x*10) - referenceVector.x, myo.transform.forward.y*5 - referenceVector.y);
-	}
+		}
+		if (updateReference)
+		{
+
+			Vector3 movement = new Vector3(myo.transform.forward.x*10, 0.0f , 0.0f); //myo.transform.forward.z * 5
+			rb.velocity = movement * speed;
+
+				rb.position = new Vector3
+				(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
+				 0,
+				Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
+				 );
+			rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
+
+		}
+		rb.position = new Vector3((myo.transform.forward.x*10), 0.0f , 0.0f);// myo.transform.forward.z
+
+}
 
 	void FixedUpdate(){
-		float moveHorizontal = Input.GetAxis ("Horizontal");
+		float moveHorizontal = Input.GetAxis ("Horizontal"); //myo.transform.forward.x * 10 ;
 		float moveVertical = Input.GetAxis ("Vertical");
 
 		Vector3 movement = new Vector3(moveHorizontal, 0.0f ,moveVertical);
