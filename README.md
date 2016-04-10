@@ -15,19 +15,19 @@ To demonstrate the use of gesture based UI using the Myo Armband and Unity 5.3.0
 During the creation of this project we found that using the fist pose for firing the weapons was best and the most natural posion.
 
 ![alt tag](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/DoubleTap.png "DoubleTap")
-#####Nothing yet
+Nothing yet
 
 ![WaveIn](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/WaveIn.png)
-#####Wave In pose used to cycle down through weapons list
+Wave In pose used to cycle down through weapons list
 
 ![WaveOut](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/WaveOut.png)
-#####Wave In pose used to cycle up through weapons list
+Wave In pose used to cycle up through weapons list
 
 ![Fist](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/Fist.png)
-#####Fist pose used to shoot continuosly
+Fist pose used to shoot continuosly
 
 ![Spread](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/Spread.png)
-#####Spread pose used to recenter the ship in the middle of the screne.
+Spread pose used to recenter the ship in the middle of the scene.
 
 ##Hardware:
 Myo ArmBand.
