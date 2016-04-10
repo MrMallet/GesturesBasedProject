@@ -94,28 +94,30 @@ public class MYOInput: MonoBehaviour
         if (updateReference) {
             // _antiYaw represents a rotation of the Myo armband about the Y axis (up) which aligns the forward
             // vector of the rotation with Z = 1 when the wearer's arm is pointing in the reference direction.
-            _antiYaw = Quaternion.FromToRotation (
-                new Vector3 (myo.transform.forward.x, 0, myo.transform.forward.z),
-                new Vector3 (0, 0, 1)
-            );
+            // _antiYaw = Quaternion.FromToRotation (
+            //     new Vector3 (myo.transform.forward.x, 0, myo.transform.forward.z),
+            //     new Vector3 (0, 0, 1)
+            // );
 
             // _referenceRoll represents how many degrees the Myo armband is rotated clockwise
             // about its forward axis (when looking down the wearer's arm towards their hand) from the reference zero
             // roll direction. This direction is calculated and explained below. When this reference is
             // taken, the joint will be rotated about its forward axis such that it faces upwards when
             // the roll value matches the reference.
-            Vector3 referenceZeroRoll = computeZeroRollVector (myo.transform.forward);
-            _referenceRoll = rollFromZero (referenceZeroRoll, myo.transform.forward, myo.transform.up);
+            // Vector3 referenceZeroRoll = computeZeroRollVector (myo.transform.forward);
+            // _referenceRoll = rollFromZero (referenceZeroRoll, myo.transform.forward, myo.transform.up);
 
 
             //////////////////////////////////
-            referenceV = new Vector3(myo.transform.forward.x *20, myo.transform.forward.y*10 ,0); //
+            referenceV = new Vector3(myo.transform.forward.x, myo.transform.forward.y,myo.transform.forward.z); //myo.transform.forward.y*10
             //////////////////////////////////
 
         }
 
         /////////////////////////////////
-        transform.position = new Vector3((myo.transform.forward.x *20)- referenceV.x, (myo.transform.forward.y *10) - referenceV.y , 0); //
+        transform.position = new Vector3((myo.transform.forward.x *20 )- referenceV.x, 0,0);
+                                          //(myo.transform.forward.y ) - referenceV.y ,0);
+                                          //(myo.transform.forward.z ) - referenceV.z); //(myo.transform.forward.y *10) - referenceV.y
 
         // Current zero roll vector and roll value.
         Vector3 zeroRoll = computeZeroRollVector (myo.transform.forward);

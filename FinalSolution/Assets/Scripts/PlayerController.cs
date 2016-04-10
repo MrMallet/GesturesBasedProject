@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+using LockingPolicy = Thalmic.Myo.LockingPolicy;
+using Pose = Thalmic.Myo.Pose;
+using UnlockType = Thalmic.Myo.UnlockType;
+using VibrationType = Thalmic.Myo.VibrationType;
+
+
 [System.Serializable]
 public class Boundary{
 	public float xMin, xMax, zMin, zMax;
@@ -21,6 +27,11 @@ public class PlayerController : MonoBehaviour {
 	private float nextFire;
 	private AudioSource audioSource;
 	private int i;
+
+	public GameObject myo = null;
+	private Pose _lastPose = Pose.Unknown;
+	private Vector2 referenceVector;
+
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
@@ -30,24 +41,65 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update(){
+		ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo>();
+		bool updateReference = false;
 		shot = bolts[i];
 		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
 			nextFire = Time.time + fireRate;
 
-			//changing the weapon will be done through the MYO here.
-			// or possibly bubbles with II III symbols or x2 x3 firerate
-			//shot = bolts[0];
-
 			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
 			audioSource.Play();
 		}
-		if(Input.GetKeyDown(KeyCode.Space)){
-			if(i<3)
-				i++;
-			else{
-				i=0;
-			}
+		if (thalmicMyo.pose != _lastPose){
+				_lastPose = thalmicMyo.pose;
+
+				// Vibrate the Myo armband when a fist is made.
+				if (thalmicMyo.pose == Pose.DoubleTap)
+				{
+						thalmicMyo.Vibrate(VibrationType.Medium);
+						nextFire = Time.time + fireRate;
+
+						Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+						audioSource.Play();
+
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
+				else if (thalmicMyo.pose == Pose.WaveOut)
+				{
+						thalmicMyo.Vibrate(VibrationType.Long);
+						if(i<2){
+							i++;
+						}
+						else if(i>=2){
+							i=0;
+						}
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
 		}
+
+		if(Input.GetKeyDown(KeyCode.Space)){
+				if(i<2){
+					i++;
+				}
+				else if(i>=2){
+					i=0;
+				}
+			}
+			if (updateReference)
+			{
+					referenceVector = new Vector2(myo.transform.forward.x*10, myo.transform.forward.y*5);
+
+					rb.velocity = referenceVector * speed;
+
+						rb.position = new Vector3
+						(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
+						 0,
+						Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
+						 );
+					rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
+
+			}
+			transform.position = new Vector2((myo.transform.forward.x*10) - referenceVector.x, myo.transform.forward.y*5 - referenceVector.y);
 	}
 
 	void FixedUpdate(){
@@ -64,5 +116,16 @@ public class PlayerController : MonoBehaviour {
 			 Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
 			 );
 		rb.rotation = Quaternion.Euler (0.0f, 0.0f, rb.velocity.x * -tilt);
+	}
+
+	void ExtendUnlockAndNotifyUserAction (ThalmicMyo myo)
+	{
+			ThalmicHub hub = ThalmicHub.instance;
+
+			if (hub.lockingPolicy == LockingPolicy.Standard) {
+					myo.Unlock (UnlockType.Timed);
+			}
+
+			myo.NotifyUserAction ();
 	}
 }
