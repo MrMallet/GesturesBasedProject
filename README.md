@@ -24,6 +24,9 @@ Myo ArmBand.
 
 ##Conclusions & Recommendations:
 The Myo ArmBand is a difficult Gesture based tool to use.
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 9e8c0b1012993a048bcdf12f6410e95e7be722db
