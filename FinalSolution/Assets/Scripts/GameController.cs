@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
+
 
 public class GameController : MonoBehaviour {
 
@@ -9,6 +11,7 @@ public class GameController : MonoBehaviour {
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
+	public int buildIndex =0;
 
 	public GUIText scoreText;
 	public GUIText restartText;
@@ -24,7 +27,7 @@ public class GameController : MonoBehaviour {
 		restartText.text = "";
 		gameOverText.text = "";
 		score = 0;
-		
+
 		UpdateScore ();
 
 		StartCoroutine(SpawnWaves ());
@@ -32,7 +35,9 @@ public class GameController : MonoBehaviour {
 	void Update(){
 		if (restart) {
 			if(Input.GetKeyDown(KeyCode.R)){
-				Application.LoadLevel(Application.loadedLevel);
+				SceneManager.LoadScene(buildIndex);
+				buildIndex++;
+				//application.loadlevel(application.loadedlevel);//code is supposedly obsolete
 			}
 		}
 	}
@@ -56,6 +61,7 @@ public class GameController : MonoBehaviour {
 				break;
 			}
 		}
+		hazardCount++;
 	}
 
 	public void AddScore(int newScoreValue)

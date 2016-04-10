@@ -59,10 +59,10 @@ public class JointOrientation : MonoBehaviour
         if (updateReference) {
             // _antiYaw represents a rotation of the Myo armband about the Y axis (up) which aligns the forward
             // vector of the rotation with Z = 1 when the wearer's arm is pointing in the reference direction.
-            _antiYaw = Quaternion.FromToRotation (
-                new Vector3 (myo.transform.forward.x, 0, myo.transform.forward.z),
-                new Vector3 (0, 0, 1)
-            );
+            // _antiYaw = Quaternion.FromToRotation (
+            //     new Vector3 (myo.transform.forward.x, 0, myo.transform.forward.z),
+            //     new Vector3 (0, 0, 1));
+            // );
 
             // if theres a roll either way we should call the movement
 
