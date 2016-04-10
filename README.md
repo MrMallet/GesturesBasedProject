@@ -13,11 +13,11 @@ To demonstrate the use of gesture based UI using the Myo Armband and Unity.
 
 ##Gestures:
 
-![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/gitImages/DoubleTap.png"DoubleTap")
-![WaveIn](https://github.com/TrevorDavies/GesturesBasedProject/gitImages/WaveIn.png)
-![WaveOut](https://github.com/TrevorDavies/GesturesBasedProject/gitImages/WaveOut.png)
-![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/gitImages/DoubleTap.png)
-![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/gitImages/DoubleTap.png)
+![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/tree/master/gitImages/DoubleTap.png"DoubleTap")
+![WaveIn](https://github.com/TrevorDavies/GesturesBasedProject/tree/master/gitImages/WaveIn.png)
+![WaveOut](https://github.com/TrevorDavies/GesturesBasedProject/tree/master/gitImages/WaveOut.png)
+![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/tree/master/gitImages/Fist.png)
+![DoubleTap](https://github.com/TrevorDavies/GesturesBasedProject/tree/master/gitImages/Spread.png)
 
 ##Hardware:
 Myo ArmBand.
