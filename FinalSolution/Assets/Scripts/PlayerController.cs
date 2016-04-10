@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 using LockingPolicy = Thalmic.Myo.LockingPolicy;
@@ -30,16 +30,20 @@ public class PlayerController : MonoBehaviour {
 	private AudioSource audioSource;
 	private int i;
 
+	public ThalmicMyo thalmicMyo;
 	public GameObject myo = null;
 	private Pose _lastPose = Pose.Unknown;
 	private Vector2 referenceVector;
+	private Vector3 startPosition;
+
 
 	void Start()
 	{
 		rb = GetComponent<Rigidbody>();
 		audioSource = GetComponent<AudioSource>();
 		i=0;
-
+		thalmicMyo = myo.GetComponent<ThalmicMyo>();
+		startPosition = transform.position;
 	}
 
 	void shoot(bool shooting ){
@@ -50,25 +54,35 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Update(){
-		ThalmicMyo thalmicMyo = myo.GetComponent<ThalmicMyo>();
+
+
 		bool updateReference = false;
 		shoot(shooting);
 		shot = bolts[i];
-		if (Input.GetButton ("Fire1") && Time.time > nextFire) {
-			nextFire = Time.time + fireRate;
 
-			Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
-			audioSource.Play();
-		}
+			if (Input.GetButton ("Fire1") && Time.time > nextFire) {
+				nextFire = Time.time + fireRate;
+
+				Instantiate (shot, shotSpawn.position, shotSpawn.rotation);
+				audioSource.Play();
+			}
+			if(Input.GetKeyDown(KeyCode.Space)){
+				if(i<2){
+					i++;
+				}
+				else if(i>=2){
+					i=0;
+				}
+			}
+
 		if (thalmicMyo.pose != _lastPose){
 				_lastPose = thalmicMyo.pose;
 				shooting = false;
 
-
 				if (thalmicMyo.pose == Pose.FingersSpread) {
 						//updateReference = true;
 						thalmicMyo.Vibrate(VibrationType.Medium);
-						rb.position = new Vector3(0,0,0);
+						rb.position = startPosition;
 						ExtendUnlockAndNotifyUserAction(thalmicMyo);
 				}
 				else if (thalmicMyo.pose == Pose.Fist)
@@ -93,16 +107,19 @@ public class PlayerController : MonoBehaviour {
 						}
 						ExtendUnlockAndNotifyUserAction(thalmicMyo);
 				}
+				else if (thalmicMyo.pose == Pose.WaveIn)
+				{
+						thalmicMyo.Vibrate(VibrationType.Long);
+						if(i>0){
+							i--;
+						}
+						else if(i ==0){
+							i=2;
+						}
+						ExtendUnlockAndNotifyUserAction(thalmicMyo);
+				}
 		}
 
-		if(Input.GetKeyDown(KeyCode.Space)){
-			if(i<2){
-				i++;
-			}
-			else if(i>=2){
-				i=0;
-			}
-		}
 		if (updateReference)
 		{
 
@@ -112,12 +129,14 @@ public class PlayerController : MonoBehaviour {
 				rb.position = new Vector3
 				(Mathf.Clamp(rb.position.x, boundary.xMin, boundary.xMax),
 				 0,
-				Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
-				 );
+				 Mathf.Clamp(rb.position.z, boundary.zMin, boundary.zMax)
+				);
 			rb.rotation = Quaternion.Euler(0.0f, 0.0f, rb.velocity.x * -tilt);
 
 		}
-		rb.position = new Vector3((myo.transform.forward.x*10), 0.0f , 0.0f);// myo.transform.forward.z
+		//rb.position = new Vector3((myo.transform.eulerAngles.x*10), 0.0f , 0.0f);// myo.transform.forward.z
+
+		rb.position = new Vector3((myo.transform.forward.x*10) , 0.0f , 0.0f);// myo.transform.forward.z
 
 }
 
