@@ -3,6 +3,8 @@
 Lecturer: Damien Costello
 
 ###By: James Moloney: [Git  Repo](https://github.com/MrMallet/GesturesBasedProject.git) and Trevor Davies:  [Git  Repo](https://github.com/TrevorDavies/GesturesBasedProject.git)
+Project is in the FinalSolution folder, the other folders contain test projects.
+
 ##About
 This application has been developed as part of our Gesture Based UI Module, working in a team of two to build a game controlled using a MYO armband. Using Unity and C# to create a 2D game that allows you to traverse a spontaneously created environment and shoot obstacles and enemies with a variety of weapons.
 High score being the objective.
