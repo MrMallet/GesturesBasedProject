@@ -14,11 +14,14 @@ public class Boundary{
 
 public class PlayerController : MonoBehaviour {
 
+	private Quaternion _antiYaw = Quaternion.identity;
+	private float _referenceRoll = 0.0f;
+	//private Pose _lastPose = Pose.Unknown;
+
 	public GameObject[] bolts;
 	public float speed;
 	public Boundary boundary;
 	public float tilt;
-
 
 	public GameObject shot;
 	public Transform shotSpawn;
@@ -33,17 +36,18 @@ public class PlayerController : MonoBehaviour {
 	public ThalmicMyo thalmicMyo;
 	public GameObject myo = null;
 	private Pose _lastPose = Pose.Unknown;
-	private Vector2 referenceVector;
-	private Vector3 startPosition;
-
+	// private Vector2 referenceVector;
+	// private Vector3 startPosition;
+	public GUIText restartText;
 
 	void Start()
 	{
+		restartText.text = "";
 		rb = GetComponent<Rigidbody>();
 		audioSource = GetComponent<AudioSource>();
 		i=0;
 		thalmicMyo = myo.GetComponent<ThalmicMyo>();
-		startPosition = transform.position;
+		//startPosition = transform.position;
 	}
 
 	void shoot(bool shooting ){
@@ -74,19 +78,20 @@ public class PlayerController : MonoBehaviour {
 					i=0;
 				}
 			}
-		
+
 		if (thalmicMyo.pose != _lastPose){
 				_lastPose = thalmicMyo.pose;
 				shooting = false;
 
 				if (thalmicMyo.pose == Pose.FingersSpread) {
-						//updateReference = true;
-						thalmicMyo.Vibrate(VibrationType.Medium);
-						rb.position = startPosition;
+						updateReference = true;
+						thalmicMyo.Vibrate(VibrationType.Short);
+						//rb.position = startPosition;
 						ExtendUnlockAndNotifyUserAction(thalmicMyo);
 				}
 				else if (thalmicMyo.pose == Pose.Fist)
 				{
+						restartText.text = "Shoot";
 						shooting = true;
 						thalmicMyo.Vibrate(VibrationType.Medium);
 						nextFire = Time.time + fireRate;
@@ -98,6 +103,7 @@ public class PlayerController : MonoBehaviour {
 				}
 				else if (thalmicMyo.pose == Pose.WaveOut)
 				{
+						restartText.text = "Change Up";
 						thalmicMyo.Vibrate(VibrationType.Long);
 						if(i<2){
 							i++;
@@ -109,6 +115,7 @@ public class PlayerController : MonoBehaviour {
 				}
 				else if (thalmicMyo.pose == Pose.WaveIn)
 				{
+						restartText.text = "Change Down";
 						thalmicMyo.Vibrate(VibrationType.Long);
 						if(i>0){
 							i--;
@@ -122,6 +129,7 @@ public class PlayerController : MonoBehaviour {
 
 		if (updateReference)
 		{
+
 
 			Vector3 movement = new Vector3(myo.transform.forward.x*10, 0.0f , 0.0f); //myo.transform.forward.z * 5
 			rb.velocity = movement * speed;
@@ -137,8 +145,8 @@ public class PlayerController : MonoBehaviour {
 		//rb.position = new Vector3((myo.transform.eulerAngles.x*10), 0.0f , 0.0f);// myo.transform.forward.z
 
 		rb.position = new Vector3((myo.transform.forward.x*10) , 0.0f , 0.0f);// myo.transform.forward.z
+	}
 
-}
 
 	void FixedUpdate(){
 		float moveHorizontal = Input.GetAxis ("Horizontal"); //myo.transform.forward.x * 10 ;
@@ -166,4 +174,5 @@ public class PlayerController : MonoBehaviour {
 
 			myo.NotifyUserAction ();
 	}
+
 }
