@@ -1,15 +1,12 @@
-# GesturesBasedProject
-Gesture UI Based Project
-Working in a team of two to build a game controlled using a MYO armband. Using Unity and C# to create a 2D game that allows you to traverse a spontaneously created environment and shoot obstacles and enemies with a variety of weapons.
-High score being the objective.
-Waves of enemies for levels.
+# Gesture UI Based Project
 
 Lecturer: Damien Costello
 
 ###By: James Moloney: [Git  Repo](https://github.com/MrMallet/GesturesBasedProject.git) and Trevor Davies:  [Git  Repo](https://github.com/TrevorDavies/GesturesBasedProject.git)
 ##About
-This application has been developed as part of our Gesture Based UI Module.
-As this project is about gesture based UI, we took a modified version of the Unity SpaceShooter tutorial and further modified it in order to demonstrate as many gestures as we could using the Myo ArmBand.
+This application has been developed as part of our Gesture Based UI Module, working in a team of two to build a game controlled using a MYO armband. Using Unity and C# to create a 2D game that allows you to traverse a spontaneously created environment and shoot obstacles and enemies with a variety of weapons.
+High score being the objective.
+As this project is about gesture based UI, we took a modified version of the Unity SpaceShooter tutorial and further modified it in order to demonstrate a few gestures using the Myo ArmBand.
 
 ##Purpose:
 The purpose of the application is to allow the user to controll a spaceship with the Myo Armband while dodging rocks,fighting enemies and to demonstrate the use of gesture based UI using the Myo Armband.
