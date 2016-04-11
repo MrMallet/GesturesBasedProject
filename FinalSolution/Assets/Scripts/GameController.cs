@@ -33,13 +33,14 @@ public class GameController : MonoBehaviour {
 		StartCoroutine(SpawnWaves ());
 	}
 	void Update(){
-		if (restart) {
-			if(Input.GetKeyDown(KeyCode.R)){
-				SceneManager.LoadScene(buildIndex);
-				buildIndex++;
-				//application.loadlevel(application.loadedlevel);//code is supposedly obsolete
-			}
-		}
+		// if (restart) {
+		// 	if(Input.GetKeyDown(KeyCode.R)){
+		// 		Destroy (GameObject.FindWithTag("MYO"));
+		// 		SceneManager.LoadScene(buildIndex -1);
+				//buildIndex++;
+				//Application.LoadLevel(Application.loadedlevel);//code is supposedly obsolete
+		// 	}
+		// }
 	}
 
 	IEnumerator SpawnWaves(){
@@ -56,7 +57,7 @@ public class GameController : MonoBehaviour {
 			yield return new WaitForSeconds(waveWait);
 
 			if(gameOver){
-				restartText.text = "Press 'R' for Restart";
+				restartText.text = "Game Over";
 				restart = true;
 				break;
 			}
