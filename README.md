@@ -9,15 +9,14 @@ Lecturer: Damien Costello
 ##By: James Moloney and Trevor Davies
 ##Introduction:
 As this project is about gesture based UI, we took a modified version of the Unity SpaceShooter tutorial and further modified it in order to demonstrate as many gestures as we could using the Myo ArmBand.
-Modifications:
+
 ##Purpose:
-To demonstrate the use of gesture based UI using the Myo Armband and Unity 5.3.0
+The purpose of the applicatioon is to allow the user to controll a spaceship with the Myo Armband while dodging rocks,fight enemies and to demonstrate the use of gesture based UI using the Myo Armband and Unity 5.3.0. The user moves the ship left and right and fire weapons.
+
 
 ##Gestures:
 During the creation of this project we found that using the fist pose for firing the weapons was best and the most natural posion.
 
-![alt tag](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/DoubleTap.png "DoubleTap")
-Nothing yet
 
 ![WaveIn](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/WaveIn.png)
 Wave In pose used to cycle down through weapons list
@@ -32,7 +31,7 @@ Fist pose used to shoot continuosly
 Spread pose used to recenter the ship in the middle of the scene.
 
 ##Hardware:
-Myo ArmBand.
+The only hardware used is the Myo Armband. We Generally found it to be difficult to use. Although when changing poses(gestures) within the game it seemed responsive, but we had a lot of problems when syncing the myo.
 
 ##Conclusions & Recommendations:
 The Myo ArmBand is a difficult Gesture based tool to use.
