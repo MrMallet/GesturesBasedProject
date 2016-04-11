@@ -22,7 +22,7 @@ During the creation of this project we found that using the fist pose for firing
 Wave In pose used to cycle down through weapons list
 
 ![WaveOut](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/WaveOut.png)
-Wave In pose used to cycle up through weapons list
+Wave Out pose used to cycle up through weapons list
 
 ![Fist](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/Fist.png)
 Fist pose used to shoot continuosly
