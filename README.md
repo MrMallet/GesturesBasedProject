@@ -6,7 +6,7 @@ Waves of enemies for levels.
 
 Lecturer: Damien Costello
 
-##By: James Moloney and Trevor Davies
+###By: James Moloney: [Git  Repo](https://github.com/MrMallet/GesturesBasedProject.git) and Trevor Davies:  [Git  Repo](https://github.com/TrevorDavies/GesturesBasedProject.git)
 ##About
 This application has been developed as part of our Gesture Based UI Module.
 As this project is about gesture based UI, we took a modified version of the Unity SpaceShooter tutorial and further modified it in order to demonstrate as many gestures as we could using the Myo ArmBand.
@@ -28,8 +28,6 @@ Wave In pose used to cycle up through weapons list
 ![Fist](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/Fist.png)
 Fist pose used to shoot continuosly
 
-![Spread](https://github.com/TrevorDavies/GesturesBasedProject/blob/master/gitImages/Spread.png)
-Spread pose used to recenter the ship in the middle of the scene.
 
 ##Hardware and Technologies:
 The only hardware used is the Myo Armband. We Generally found it to be difficult to use. Although when changing poses(gestures) within the game it seemed responsive, but we had a lot of problems when syncing the myo with our PC's.
