@@ -3,6 +3,7 @@
 Lecturer: Damien Costello
 
 ###By: James Moloney: [Git  Repo](https://github.com/MrMallet/GesturesBasedProject.git) and Trevor Davies:  [Git  Repo](https://github.com/TrevorDavies/GesturesBasedProject.git)
+###[Video Link](https://drive.google.com/file/d/0B0A2P288VER-UjhQSUJPVFJUbzg/view?usp=sharing)
 Project is in the FinalSolution folder, the other folders contain test projects.
 
 ##About
