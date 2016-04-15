@@ -38,8 +38,6 @@ The only hardware used is the Myo Armband. We Generally found it to be difficult
 * Thalmic Myo SDK 0.9.0
 * Myo Unity plugin
 
-##Video of game play
-[Youtube Video](https://docs.google.com/presentation/d/1hlbkA59QhOCTTa3G9c777D-rR71_C24el-xxWTNu5Cs/edit?usp=sharing) 
 
 ##Conclusions & Recommendations:
 
