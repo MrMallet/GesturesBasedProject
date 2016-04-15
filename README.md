@@ -3,7 +3,8 @@
 Lecturer: Damien Costello
 
 ###By: James Moloney: [Git  Repo](https://github.com/MrMallet/GesturesBasedProject.git) and Trevor Davies:  [Git  Repo](https://github.com/TrevorDavies/GesturesBasedProject.git)
-###[Video Link](https://drive.google.com/file/d/0B0A2P288VER-UjhQSUJPVFJUbzg/view?usp=sharing)
+####[Youtube Video Link](https://www.youtube.com/watch?v=yGFw2JdcExw)
+####[Slide Show](https://docs.google.com/presentation/d/1hlbkA59QhOCTTa3G9c777D-rR71_C24el-xxWTNu5Cs/edit?usp=sharing)
 Project is in the FinalSolution folder, the other folders contain test projects.
 
 ##About
@@ -37,7 +38,8 @@ The only hardware used is the Myo Armband. We Generally found it to be difficult
 * Thalmic Myo SDK 0.9.0
 * Myo Unity plugin
 
-
+##Video of game play
+[Youtube Video](https://docs.google.com/presentation/d/1hlbkA59QhOCTTa3G9c777D-rR71_C24el-xxWTNu5Cs/edit?usp=sharing) 
 
 ##Conclusions & Recommendations:
 
